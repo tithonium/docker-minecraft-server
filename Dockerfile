@@ -2,6 +2,11 @@ FROM openjdk:8u171-jre-alpine
 
 LABEL maintainer "tithonium"
 
+ARG RESTIFY_VER=1.1.4
+ARG RCON_CLI_VER=1.4.0
+ARG MC_SERVER_RUNNER_VER=1.2.0
+ARG ARCH
+
 ENV UID=1000 GID=1000 JVM_XX_OPTS="-XX:+UseG1GC" MEMORY="1G" TYPE=VANILLA VERSION=LATEST FORGEVERSION=RECOMMENDED SPONGEBRANCH=STABLE SPONGEVERSION= LEVEL=world PVP=true DIFFICULTY=easy ENABLE_RCON=true RCON_PORT=25575 RCON_PASSWORD=minecraft LEVEL_TYPE=DEFAULT GENERATOR_SETTINGS= WORLD= MODPACK= MODS= SERVER_PORT=25565 ONLINE_MODE=TRUE CONSOLE=true
 
 RUN apk add --no-cache -U openssl imagemagick lsof su-exec shadow bash curl iputils wget git jq mysql-client tzdata rsync python python-dev py2-pip
@@ -11,11 +16,6 @@ RUN pip install mcstatus
 HEALTHCHECK CMD mcstatus localhost:$SERVER_PORT ping
 
 RUN addgroup -g 1000 minecraft && adduser -Ss /bin/false -u 1000 -G minecraft -h /home/minecraft minecraft && mkdir -m 777 /data /mods /config /plugins && chown minecraft:minecraft /data /config /mods /plugins /home/minecraft
-
-ARG RESTIFY_VER=1.1.4
-ARG RCON_CLI_VER=1.4.0
-ARG MC_SERVER_RUNNER_VER=1.2.0
-ARG ARCH=$TARGETARCH
 
 ADD https://github.com/itzg/restify/releases/download/${RESTIFY_VER}/restify_${RESTIFY_VER}_linux_${ARCH}.tar.gz /tmp/restify.tgz
 RUN tar -x -C /usr/local/bin -f /tmp/restify.tgz restify && rm /tmp/restify.tgz
