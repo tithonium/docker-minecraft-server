@@ -15,7 +15,7 @@ RUN addgroup -g 1000 minecraft && adduser -Ss /bin/false -u 1000 -G minecraft -h
 ARG RESTIFY_VER=1.1.4
 ARG RCON_CLI_VER=1.4.0
 ARG MC_SERVER_RUNNER_VER=1.2.0
-ARG ARCH=amd64
+ARG ARCH=$TARGETARCH
 
 ADD https://github.com/itzg/restify/releases/download/${RESTIFY_VER}/restify_${RESTIFY_VER}_linux_${ARCH}.tar.gz /tmp/restify.tgz
 RUN tar -x -C /usr/local/bin -f /tmp/restify.tgz restify && rm /tmp/restify.tgz
