@@ -1,0 +1,3 @@
+[submodule "itzg-dockerfiles"]
+	path = itzg-dockerfiles
+	url = https://github.com/itzg/dockerfiles.git
